@@ -10571,6 +10571,7 @@ maximum decompressed size. Default value: 1073741824
     <xs:complexContent>
       <xs:extension base="tns:output">
         <xs:sequence>
+          <xs:element minOccurs="0" name="disableErrorHandlerCache" type="xs:string"/>
           <xs:choice maxOccurs="unbounded" minOccurs="0">
             <xs:element ref="tns:aggregate"/>
             <xs:element ref="tns:bean"/>
@@ -11817,6 +11818,17 @@ reduce memory usage to avoid storing too many non frequent used producers.
 Shares the org.apache.camel.spi.UnitOfWork with the parent and each of the sub messages. Recipient List will by default
 not share unit of work between the parent exchange and each recipient exchange. This means each sub exchange has its own
 individual unit of work. Default value: false
+]]>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="disableErrorHandlerCache" type="xs:string">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">
+<![CDATA[
+Disable the errorHandler cache. Disabling may impact performance when URLs are reused across multiple exchanges.
+When URLs are mostly unique, disabling the cache can prevent OOM conditions with minimal, if any, performance impact.
+Default value: false
 ]]>
             </xs:documentation>
           </xs:annotation>
@@ -13282,6 +13294,7 @@ Sets the comparator to use for sorting.
             <xs:element ref="tns:wireTap"/>
             <xs:element ref="tns:serviceCall"/>
           </xs:choice>
+          <xs:element minOccurs="0" name="disableErrorHandlerCache" type="xs:string"/>
         </xs:sequence>
         <xs:attribute name="delimiter" type="xs:string">
           <xs:annotation>

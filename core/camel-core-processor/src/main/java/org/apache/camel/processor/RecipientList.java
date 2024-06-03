@@ -67,6 +67,7 @@ public class RecipientList extends AsyncProcessorSupport implements IdAware, Rou
     private int cacheSize;
     private Processor onPrepare;
     private boolean shareUnitOfWork;
+    private boolean disableErrorHandlerCache;
     private ExecutorService executorService;
     private boolean shutdownExecutorService;
     private volatile ExecutorService aggregateExecutorService;
@@ -213,6 +214,7 @@ public class RecipientList extends AsyncProcessorSupport implements IdAware, Rou
         recipientListProcessor.setCacheSize(getCacheSize());
         recipientListProcessor.setId(getId());
         recipientListProcessor.setRouteId(getRouteId());
+        recipientListProcessor.setDisableErrorHandlerCache(disableErrorHandlerCache);
 
         ServiceHelper.startService(aggregationStrategy, producerCache, recipientListProcessor);
     }
@@ -336,6 +338,14 @@ public class RecipientList extends AsyncProcessorSupport implements IdAware, Rou
 
     public void setShareUnitOfWork(boolean shareUnitOfWork) {
         this.shareUnitOfWork = shareUnitOfWork;
+    }
+
+    public boolean isDisableErrorHandlerCache() {
+        return disableErrorHandlerCache;
+    }
+
+    public void setDisableErrorHandlerCache(boolean disableErrorHandlerCache) {
+        this.disableErrorHandlerCache = disableErrorHandlerCache;
     }
 
     public int getCacheSize() {

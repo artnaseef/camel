@@ -139,4 +139,10 @@ public @interface RecipientList {
      * sub exchange has its own individual unit of work.
      */
     boolean shareUnitOfWork() default false;
+
+    /**
+     * Disable the errorHandler cache. Disabling may impact performance when URLs are reused across multiple exchanges.
+     * When URLs are mostly unique, disabling the cache can prevent OOM conditions with minimal, if any, performance impact.
+     */
+    boolean disableErrorHandlerCache() default false;
 }

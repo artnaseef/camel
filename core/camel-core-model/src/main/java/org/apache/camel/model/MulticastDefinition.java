@@ -84,6 +84,8 @@ public class MulticastDefinition extends OutputDefinition<MulticastDefinition>
     @XmlAttribute
     @Metadata(label = "advanced", javaType = "java.lang.Boolean")
     private String shareUnitOfWork;
+    @Metadata(javaType = "java.lang.Boolean")
+    private String disableErrorHandlerCache;
 
     public MulticastDefinition() {
     }
@@ -569,5 +571,13 @@ public class MulticastDefinition extends OutputDefinition<MulticastDefinition>
 
     public void setOnPrepare(String onPrepare) {
         this.onPrepare = onPrepare;
+    }
+
+    public String getDisableErrorHandlerCache() {
+        return disableErrorHandlerCache;
+    }
+
+    public void setDisableErrorHandlerCache(String disableErrorHandlerCache) {
+        this.disableErrorHandlerCache = disableErrorHandlerCache;
     }
 }

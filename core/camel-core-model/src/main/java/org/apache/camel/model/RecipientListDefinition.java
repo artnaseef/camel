@@ -92,6 +92,8 @@ public class RecipientListDefinition<Type extends ProcessorDefinition<Type>> ext
     @XmlAttribute
     @Metadata(label = "advanced", javaType = "java.lang.Boolean")
     private String shareUnitOfWork;
+    @Metadata(javaType = "java.lang.Boolean")
+    private String disableErrorHandlerCache;
 
     public RecipientListDefinition() {
     }
@@ -308,6 +310,29 @@ public class RecipientListDefinition<Type extends ProcessorDefinition<Type>> ext
      */
     public RecipientListDefinition<Type> synchronous(String synchronous) {
         setSynchronous(synchronous);
+        return this;
+    }
+
+    /**
+     * Sets whether to disable the errorHandler cache. Disabling may impact performance when URLs are reused across
+     * multiple exchanges. When URLs are mostly unique, disabling the cache can prevent OOM conditions with minimal, if
+     * any, performance impact.
+     *
+     * @return the builder
+     */
+    public RecipientListDefinition<Type> disableErrorHandlerCache(boolean disableErrorHandlerCache) {
+        return disableErrorHandlerCache(Boolean.toString(disableErrorHandlerCache));
+    }
+
+    /**
+     * Sets whether to disable the errorHandler cache. Disabling may impact performance when URLs are reused across
+     * multiple exchanges. When URLs are mostly unique, disabling the cache can prevent OOM conditions with minimal, if
+     * any, performance impact.
+     *
+     * @return the builder
+     */
+    public RecipientListDefinition<Type> disableErrorHandlerCache(String disableErrorHandlerCache) {
+        setDisableErrorHandlerCache(disableErrorHandlerCache);
         return this;
     }
 
@@ -626,5 +651,13 @@ public class RecipientListDefinition<Type extends ProcessorDefinition<Type>> ext
 
     public void setExecutorService(String executorService) {
         this.executorService = executorService;
+    }
+
+    public String getDisableErrorHandlerCache() {
+        return disableErrorHandlerCache;
+    }
+
+    public void setDisableErrorHandlerCache(String disableErrorHandlerCache) {
+        this.disableErrorHandlerCache = disableErrorHandlerCache;
     }
 }

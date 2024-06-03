@@ -84,6 +84,8 @@ public class SplitDefinition extends OutputExpressionNode implements ExecutorSer
     @XmlAttribute
     @Metadata(label = "advanced", javaType = "java.lang.Boolean")
     private String shareUnitOfWork;
+    @Metadata(javaType = "java.lang.Boolean")
+    private String disableErrorHandlerCache;
 
     public SplitDefinition() {
     }
@@ -678,5 +680,13 @@ public class SplitDefinition extends OutputExpressionNode implements ExecutorSer
 
     public void setExecutorService(String executorService) {
         this.executorService = executorService;
+    }
+
+    public String getDisableErrorHandlerCache() {
+        return disableErrorHandlerCache;
+    }
+
+    public void setDisableErrorHandlerCache(String disableErrorHandlerCache) {
+        this.disableErrorHandlerCache = disableErrorHandlerCache;
     }
 }

@@ -1182,6 +1182,7 @@ public class ModelWriter extends BaseWriter {
         doWriteAttribute("parallelAggregate", def.getParallelAggregate());
         doWriteAttribute("shareUnitOfWork", def.getShareUnitOfWork());
         doWriteAttribute("aggregationStrategyMethodAllowNull", def.getAggregationStrategyMethodAllowNull());
+        doWriteElement("disableErrorHandlerCache", def.getDisableErrorHandlerCache(), this::doWriteString);
         doWriteList(null, null, def.getOutputs(), this::doWriteProcessorDefinitionRef);
         endElement(name);
     }
@@ -1358,6 +1359,7 @@ public class ModelWriter extends BaseWriter {
         doWriteAttribute("shareUnitOfWork", def.getShareUnitOfWork());
         doWriteAttribute("aggregationStrategyMethodAllowNull", def.getAggregationStrategyMethodAllowNull());
         doWriteExpressionNodeElements(def);
+        doWriteElement("disableErrorHandlerCache", def.getDisableErrorHandlerCache(), this::doWriteString);
         endElement(name);
     }
     protected void doWriteRedeliveryPolicyDefinition(String name, RedeliveryPolicyDefinition def) throws IOException {
@@ -1708,6 +1710,7 @@ public class ModelWriter extends BaseWriter {
         doWriteAttribute("shareUnitOfWork", def.getShareUnitOfWork());
         doWriteAttribute("aggregationStrategyMethodAllowNull", def.getAggregationStrategyMethodAllowNull());
         doWriteOutputExpressionNodeElements(def);
+        doWriteElement("disableErrorHandlerCache", def.getDisableErrorHandlerCache(), this::doWriteString);
         endElement(name);
     }
     protected void doWriteStepDefinition(String name, StepDefinition def) throws IOException {

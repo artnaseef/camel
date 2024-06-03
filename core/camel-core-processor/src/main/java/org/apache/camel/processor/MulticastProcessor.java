@@ -173,6 +173,8 @@ public class MulticastProcessor extends AsyncProcessorSupport
     private final ConcurrentMap<Processor, Processor> errorHandlers = new ConcurrentHashMap<>();
     private final boolean shareUnitOfWork;
 
+    private boolean disableErrorHandlerCache;
+
     public MulticastProcessor(CamelContext camelContext, Route route, Collection<Processor> processors) {
         this(camelContext, route, processors, null);
     }
@@ -260,6 +262,14 @@ public class MulticastProcessor extends AsyncProcessorSupport
 
     public void setSynchronous(boolean synchronous) {
         this.synchronous = synchronous;
+    }
+
+    public boolean isDisableErrorHandlerCache() {
+        return disableErrorHandlerCache;
+    }
+
+    public void setDisableErrorHandlerCache(boolean disableErrorHandlerCache) {
+        this.disableErrorHandlerCache = disableErrorHandlerCache;
     }
 
     @Override
@@ -1034,7 +1044,7 @@ public class MulticastProcessor extends AsyncProcessorSupport
             // for the entire multicast block again which will start from scratch again
 
             // lookup cached first to reuse and preserve memory
-            answer = errorHandlers.get(key);
+            answer = getErrorHandlerCacheEntry(key);
             if (answer != null) {
                 LOG.trace("Using existing error handler for: {}", key);
                 return answer;
@@ -1055,15 +1065,7 @@ public class MulticastProcessor extends AsyncProcessorSupport
                 // here we don't cache the child unit of work
                 if (!child) {
                     // add to cache
-                    // TODO returned value ignored intentionally?
-                    // Findbugs alert:
-                    // The putIfAbsent method is typically used to ensure that a single value
-                    // is associated with a given key (the first value for which put if absent succeeds).
-                    // If you ignore the return value and retain a reference to the value passed in,
-                    // you run the risk of retaining a value that is not the one that is associated
-                    // with the key in the map. If it matters which one you use and you use the one
-                    // that isn't stored in the map, your program will behave incorrectly.
-                    errorHandlers.putIfAbsent(key, answer);
+                    updateErrorHandlersCache(key, answer);
                 }
 
             } catch (Exception e) {
@@ -1075,6 +1077,28 @@ public class MulticastProcessor extends AsyncProcessorSupport
         }
 
         return answer;
+    }
+
+    private Processor getErrorHandlerCacheEntry(Processor sourceProcessor) {
+        if (!disableErrorHandlerCache) {
+            return errorHandlers.get(sourceProcessor);
+        }
+
+        return null;
+    }
+
+    private void updateErrorHandlersCache(Processor sourceProcessor, Processor errorHandler) {
+        if (!disableErrorHandlerCache) {
+            // TODO returned value ignored intentionally?
+            // Findbugs alert:
+            // The putIfAbsent method is typically used to ensure that a single value
+            // is associated with a given key (the first value for which put if absent succeeds).
+            // If you ignore the return value and retain a reference to the value passed in,
+            // you run the risk of retaining a value that is not the one that is associated
+            // with the key in the map. If it matters which one you use and you use the one
+            // that isn't stored in the map, your program will behave incorrectly.
+            errorHandlers.putIfAbsent(sourceProcessor, errorHandler);
+        }
     }
 
     private Processor wrapInErrorHandler(Route route, Processor processor) throws Exception {
