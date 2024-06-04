@@ -206,7 +206,8 @@ public class RecipientList extends AsyncProcessorSupport implements IdAware, Rou
         recipientListProcessor = new RecipientListProcessor(
                 camelContext, null, expression, delimiter, producerCache, getAggregationStrategy(),
                 isParallelProcessing(), getExecutorService(), isShutdownExecutorService(),
-                isStreaming(), isStopOnException(), getTimeout(), getOnPrepare(), isShareUnitOfWork(), isParallelAggregate());
+                isStreaming(), isStopOnException(), getTimeout(), getOnPrepare(), isShareUnitOfWork(), isParallelAggregate(),
+                isDisableErrorHandlerCache());
         recipientListProcessor.setSynchronous(synchronous);
         recipientListProcessor.setErrorHandler(errorHandler);
         recipientListProcessor.setAggregateExecutorService(aggregateExecutorService);

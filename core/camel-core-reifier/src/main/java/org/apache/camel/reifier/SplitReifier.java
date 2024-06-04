@@ -50,6 +50,7 @@ public class SplitReifier extends ExpressionReifier<SplitDefinition> {
         boolean isParallelAggregate = parseBoolean(definition.getParallelAggregate(), false);
         boolean isStopOnException = parseBoolean(definition.getStopOnException(), false);
         boolean shutdownThreadPool = willCreateNewThreadPool(definition, isParallelProcessing);
+        boolean isDisableErrorHandlerCache = parseBoolean(definition.getDisableErrorHandlerCache(), false);
         ExecutorService threadPool = getConfiguredExecutorService("Split", definition, isParallelProcessing);
 
         long timeout = parseDuration(definition.getTimeout(), 0);
@@ -69,12 +70,12 @@ public class SplitReifier extends ExpressionReifier<SplitDefinition> {
             answer = new Splitter(
                     camelContext, route, exp, childProcessor, strategy, isParallelProcessing,
                     threadPool, shutdownThreadPool, isStreaming, isStopOnException, timeout, prepare,
-                    isShareUnitOfWork, isParallelAggregate, delimiter);
+                    isShareUnitOfWork, isParallelAggregate, isDisableErrorHandlerCache, delimiter);
         } else {
             answer = new Splitter(
                     camelContext, route, exp, childProcessor, strategy, isParallelProcessing,
                     threadPool, shutdownThreadPool, isStreaming, isStopOnException, timeout, prepare,
-                    isShareUnitOfWork, isParallelAggregate);
+                    isShareUnitOfWork, isParallelAggregate, isDisableErrorHandlerCache);
         }
         answer.setSynchronous(isSynchronous);
 

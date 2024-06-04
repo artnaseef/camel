@@ -181,7 +181,7 @@ public class MulticastProcessor extends AsyncProcessorSupport
 
     public MulticastProcessor(CamelContext camelContext, Route route, Collection<Processor> processors,
                               AggregationStrategy aggregationStrategy) {
-        this(camelContext, route, processors, aggregationStrategy, false, null, false, false, false, 0, null, false, false);
+        this(camelContext, route, processors, aggregationStrategy, false, null, false, false, false, 0, null, false, false, false);
     }
 
     public MulticastProcessor(CamelContext camelContext, Route route, Collection<Processor> processors,
@@ -189,7 +189,8 @@ public class MulticastProcessor extends AsyncProcessorSupport
                               boolean parallelProcessing, ExecutorService executorService, boolean shutdownExecutorService,
                               boolean streaming,
                               boolean stopOnException, long timeout, Processor onPrepare, boolean shareUnitOfWork,
-                              boolean parallelAggregate) {
+                              boolean parallelAggregate,
+                              boolean disableErrorHandlerCache) {
         notNull(camelContext, "camelContext");
         this.camelContext = camelContext;
         this.internalProcessorFactory = PluginHelper.getInternalProcessorFactory(camelContext);
@@ -208,6 +209,7 @@ public class MulticastProcessor extends AsyncProcessorSupport
         this.onPrepare = onPrepare;
         this.shareUnitOfWork = shareUnitOfWork;
         this.parallelAggregate = parallelAggregate;
+        this.disableErrorHandlerCache = disableErrorHandlerCache;
         this.processorExchangeFactory = camelContext.getCamelContextExtension()
                 .getProcessorExchangeFactory().newProcessorExchangeFactory(this);
     }

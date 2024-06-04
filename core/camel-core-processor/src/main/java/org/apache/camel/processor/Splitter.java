@@ -67,20 +67,20 @@ public class Splitter extends MulticastProcessor implements AsyncProcessor, Trac
                     AggregationStrategy aggregationStrategy, boolean parallelProcessing,
                     ExecutorService executorService, boolean shutdownExecutorService, boolean streaming,
                     boolean stopOnException, long timeout, Processor onPrepare,
-                    boolean useSubUnitOfWork, boolean parallelAggregate) {
+                    boolean useSubUnitOfWork, boolean parallelAggregate, boolean disableErrorHandlerCache) {
         this(camelContext, route, expression, destination, aggregationStrategy, parallelProcessing, executorService,
-             shutdownExecutorService, streaming, stopOnException, timeout,
-             onPrepare, useSubUnitOfWork, parallelAggregate, ",");
+              shutdownExecutorService, streaming, stopOnException,
+              timeout, onPrepare, useSubUnitOfWork, parallelAggregate, disableErrorHandlerCache, ",");
     }
 
     public Splitter(CamelContext camelContext, Route route, Expression expression, Processor destination,
                     AggregationStrategy aggregationStrategy, boolean parallelProcessing,
                     ExecutorService executorService, boolean shutdownExecutorService, boolean streaming,
                     boolean stopOnException, long timeout, Processor onPrepare,
-                    boolean useSubUnitOfWork, boolean parallelAggregate, String delimiter) {
+                    boolean useSubUnitOfWork, boolean parallelAggregate, boolean disableErrorHandlerCache, String delimiter) {
         super(camelContext, route, Collections.singleton(destination), aggregationStrategy, parallelProcessing, executorService,
               shutdownExecutorService, streaming, stopOnException,
-              timeout, onPrepare, useSubUnitOfWork, parallelAggregate);
+              timeout, onPrepare, useSubUnitOfWork, parallelAggregate, disableErrorHandlerCache);
         this.expression = expression;
         StringHelper.notEmpty(delimiter, "delimiter");
         this.delimiter = delimiter;

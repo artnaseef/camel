@@ -433,6 +433,29 @@ public class MulticastDefinition extends OutputDefinition<MulticastDefinition>
         return this;
     }
 
+    /**
+     * Sets whether to disable the errorHandler cache. Disabling may impact performance when URLs are reused across
+     * multiple exchanges. When URLs are mostly unique, disabling the cache can prevent OOM conditions with minimal, if
+     * any, performance impact.
+     *
+     * @return the builder
+     */
+    public MulticastDefinition disableErrorHandlerCache(boolean disableErrorHandlerCache) {
+        return disableErrorHandlerCache(Boolean.toString(disableErrorHandlerCache));
+    }
+
+    /**
+     * Sets whether to disable the errorHandler cache. Disabling may impact performance when URLs are reused across
+     * multiple exchanges. When URLs are mostly unique, disabling the cache can prevent OOM conditions with minimal, if
+     * any, performance impact.
+     *
+     * @return the builder
+     */
+    public MulticastDefinition disableErrorHandlerCache(String disableErrorHandlerCache) {
+        setDisableErrorHandlerCache(disableErrorHandlerCache);
+        return this;
+    }
+
     public AggregationStrategy getAggregationStrategyBean() {
         return aggregationStrategyBean;
     }
